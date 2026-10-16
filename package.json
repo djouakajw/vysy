@@ -1,0 +1,12 @@
+{
+  "name": "whatsapp-clone",
+  "version": "1.0.0",
+  "description": "Clone WhatsApp automatisé avec @open-wa/wa-automate",
+  "main": "clone.js",
+  "scripts": {
+    "start": "node clone.js"
+  },
+  "dependencies": {
+    "@open-wa/wa-automate": "^7.0.0"
+  }
+}
