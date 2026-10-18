@@ -31,6 +31,10 @@
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                     Réseaux sociaux
                 </a>
+                <a href="{{ route('admin.advertising.index') }}" class="flex items-center px-3 py-2 text-gray-700 hover:bg-green-50 hover:text-green-700 rounded-lg transition">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Publicité
+                </a>
             </nav>
         </div>
     </aside>

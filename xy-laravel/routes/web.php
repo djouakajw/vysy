@@ -61,6 +61,22 @@ Route::middleware(['auth', 'tenant.owner'])->prefix('tenant')->name('tenant.')->
         Route::get('/', \App\Http\Controllers\Tenant\SubscriptionController::class . '@show')->name('show');
         Route::post('/renew', \App\Http\Controllers\Tenant\SubscriptionController::class . '@renew')->name('renew');
     });
+
+    // Réseaux sociaux du tenant (accessible à tous les plans)
+    Route::prefix('social')->name('social.')->group(function () {
+        Route::get('/', \App\Http\Controllers\Tenant\SocialController::class . '@index')->name('index');
+        Route::post('/', \App\Http\Controllers\Tenant\SocialController::class . '@store')->name('store');
+        Route::put('/{socialAccount}', \App\Http\Controllers\Tenant\SocialController::class . '@update')->name('update');
+        Route::delete('/{socialAccount}', \App\Http\Controllers\Tenant\SocialController::class . '@destroy')->name('destroy');
+    });
+
+    // Comptes publicitaires du tenant (réservé aux plans >= 5000F)
+    Route::prefix('advertising')->name('advertising.')->group(function () {
+        Route::get('/', \App\Http\Controllers\Tenant\AdvertisingController::class . '@index')->name('index');
+        Route::post('/', \App\Http\Controllers\Tenant\AdvertisingController::class . '@store')->name('store');
+        Route::put('/{advertisingAccount}', \App\Http\Controllers\Tenant\AdvertisingController::class . '@update')->name('update');
+        Route::delete('/{advertisingAccount}', \App\Http\Controllers\Tenant\AdvertisingController::class . '@destroy')->name('destroy');
+    });
 });
 
 // ============================================================

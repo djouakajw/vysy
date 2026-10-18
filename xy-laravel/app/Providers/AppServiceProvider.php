@@ -6,6 +6,8 @@ use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Cache\RateLimitingEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\Events\CacheHit;
@@ -38,6 +40,11 @@ class AppServiceProvider extends ServiceProvider
             return [
                 \Illuminate\Cache\RateLimitingLimit::perMinute(10)->by($request->user()?->id ?: $request->ip()),
             ];
+        });
+
+        // Gate d'accès admin : seuls les utilisateurs avec is_admin = true ou les super-admins
+        Gate::define('admin.access', function (User $user) {
+            return $user && ($user->is_admin ?? false);
         });
     }
 }

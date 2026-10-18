@@ -43,14 +43,7 @@ class SocialController extends Controller
 
         $tenant = Tenant::find($request->tenant_id);
 
-        // Verify tenant has plan >= 5000F (prime or prime-plus)
-        if (!in_array($tenant->plan, ['prime', 'prime-plus'])) {
-            return response()->json([
-                'error' => 'plan_required',
-                'message' => 'Les connexions sociales sont réservées aux plans Prime (5000F) et Panneau (7000F)'
-            ], 403);
-        }
-
+        // Les réseaux sociaux sont accessibles à TOUS les plans (pas de restriction)
         $socialAccount = SocialAccount::updateOrCreate(
             ['tenant_id' => $tenant->id, 'platform' => $request->platform, 'account_id' => $request->account_id],
             [
