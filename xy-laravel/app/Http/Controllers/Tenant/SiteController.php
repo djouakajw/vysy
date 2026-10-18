@@ -37,13 +37,27 @@ class SiteController extends Controller
         $actionValue = $tenant->settings['action_value'] ?? '';
         $deliveryModes = $tenant->settings['delivery_modes'] ?? [];
 
+        // SEO data
+        $seoTitle = $tenant->siteName ?? $tenant->name;
+        $seoDescription = $tenant->settings['seo_description'] ?? $tenant->description ?? 'Découvrez ' . $tenant->name . ' sur ' . $tenant->public_url;
+        $seoKeywords = $tenant->settings['seo_keywords'] ?? $tenant->name . ', ' . $tenant->city . ', ' . $tenant->country;
+        $canonicalUrl = $tenant->public_url;
+        $ogImage = $tenant->settings['og_image'] ?? ($tenant->logo_url ?? null);
+        $twitterCard = 'summary_large_image';
+
         return view('tenant.site', compact(
             'tenant',
             'products',
             'pages',
             'primaryAction',
             'actionValue',
-            'deliveryModes'
+            'deliveryModes',
+            'seoTitle',
+            'seoDescription',
+            'seoKeywords',
+            'canonicalUrl',
+            'ogImage',
+            'twitterCard'
         ));
     }
 

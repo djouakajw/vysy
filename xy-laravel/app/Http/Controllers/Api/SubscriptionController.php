@@ -32,7 +32,37 @@ class SubscriptionController extends Controller
             'prime-plus' => 'Panneau',
         ];
 
+        // Upsell feature gaps - what each plan is missing compared to the next
+        $upsellGaps = [
+            'entry' => [
+                'upsell_to' => 'business',
+                'missing_features' => ['3 sous-domaines', '500 produits', 'Lien externe', 'Statistiques avancées', 'Marketing'],
+                'badge' => 'Passez à Chiffre d\'affaires pour +5x de produits',
+            ],
+            'business' => [
+                'upsell_to' => 'prime',
+                'missing_features' => ['5 sous-domaines', '1000 produits', 'IA intégrée', 'Campagnes marketing', 'Réseaux sociaux', 'Domaine personnalisé'],
+                'badge' => 'Passez à Prime pour l\'IA, les réseaux sociaux et le domaine personnalisé',
+            ],
+            'prime' => [
+                'upsell_to' => 'prime-plus',
+                'missing_features' => ['10 sous-domaines', 'Produits illimités', 'Support premium', 'IA avancée', 'Réseaux sociaux avancés', 'Multi-domaines'],
+                'badge' => 'Passez à Panneau pour le réseau multi-boutiques',
+            ],
+            'prime-plus' => [
+                'upsell_to' => null,
+                'missing_features' => [],
+                'badge' => 'Plan maximum atteint',
+            ],
+        ];
+
+        $socialAccountsPlans = ['prime', 'prime-plus']; // Social accounts from 5000F
+
         foreach ($currentPrices as $id => $p) {
+            $annualPrice = (int) round($p['price'] * 12 * 0.5); // 50% reduction on annual
+            $monthlySavings = $p['original'] - $p['price'];
+            $yearlySavings = ($p['original'] * 12) - $annualPrice;
+
             $plans[] = [
                 'id' => $id,
                 'name' => $planNames[$id] ?? ucfirst($id),
@@ -44,11 +74,19 @@ class SubscriptionController extends Controller
                 'sites_allowed' => $p['sites_allowed'],
                 'products_limit' => $p['products_limit'],
                 'features' => $this->getPlanFeatures($id),
+                'annual_price' => $annualPrice,
+                'annual_original' => $p['original'] * 12,
+                'annual_discount_percent' => 50,
+                'monthly_savings' => $monthlySavings,
+                'yearly_savings' => $yearlySavings,
+                'upsell' => $upsellGaps[$id],
+                'allows_social_accounts' => in_array($id, $socialAccountsPlans),
+                'popular' => $id === 'business', // Highlight business as popular
                 'description' => 'Abonnement mensuel - ' . ($planNames[$id] ?? ucfirst($id)),
             ];
         }
 
-        // Réduction supplémentaire de 50% sur l'engagement annuel (déjà réduit de 50%)
+        // Annual discounts (50% on annual commitment)
         $annualDiscounts = [
             'entry' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
             'business' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
@@ -60,6 +98,8 @@ class SubscriptionController extends Controller
             'plans' => $plans,
             'annual_discounts' => $annualDiscounts,
             'default_currency' => 'XOF',
+            'social_accounts_min_plan' => 'prime',
+            'social_accounts_min_price' => 5000,
         ]);
     }
 
@@ -68,8 +108,8 @@ class SubscriptionController extends Controller
         return match ($id) {
             'entry' => ['sous-domaine', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
             'business' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'lien-externe', 'stats-avancees', 'marketing'],
-            'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
-            'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise'],
+            'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise', 'reseaux-sociaux'],
+            'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise', 'reseaux-sociaux-avances'],
             default => ['sous-domaine', 'qr-code', 'whatsapp-bouton'],
         };
     }
@@ -77,7 +117,7 @@ class SubscriptionController extends Controller
     public function createPayment(Request $request, GeniusPayService $geniusPay)
     {
         $validator = Validator::make($request->all(), [
-            'plan' => 'required|string|in:starter,business,premium',
+            'plan' => 'required|string|in:entry,business,prime,prime-plus',
             'period' => 'nullable|string|in:month,year',
             'tenant_id' => 'required|exists:tenants,id',
             'currency' => 'nullable|string|in:XOF,XAF,USD,EUR',
@@ -160,8 +200,8 @@ class SubscriptionController extends Controller
                     'features' => match ($request->plan) {
                         'entry' => ['sous-domaine', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
                         'business' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'lien-externe', 'stats-avancees', 'marketing'],
-                        'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
-                        'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise'],
+                        'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise', 'reseaux-sociaux'],
+                        'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise', 'reseaux-sociaux-avances'],
                         default => ['sous-domaine', 'qr-code', 'whatsapp-bouton'],
                     },
                 ],
