@@ -10,6 +10,7 @@
         body { font-family: 'Inter', sans-serif; }
         .gradient-bg { background: linear-gradient(135deg, #00a86b 0%, #00d4aa 100%); }
         .text-gradient { background: linear-gradient(135deg, #00a86b 0%, #00d4aa 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .strike-through { text-decoration: line-through; }
     </style>
 </head>
 <body class="bg-white text-gray-900">
@@ -39,56 +40,42 @@
             Choisissez votre forfait <span class="text-gradient">XY</span>
         </h1>
         <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-            Abonnements mensuels ou annuels avec réductions. Paiement sécurisé via GeniusPay (Mobile Money, carte bancaire).
+            Abonnements mensuels ou annuels avec réductions de 50%. Paiement sécurisé via GeniusPay (Mobile Money, carte bancaire).
         </p>
 
         <div class="max-w-6xl mx-auto">
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 
-                <!-- Gratuit -->
+                <!-- Entrée -->
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Gratuit</h3>
-                    <div class="mt-2">
-                        <span class="text-3xl font-bold text-gray-900">0 FCFA</span>
-                        <span class="text-gray-500">/ mois</span>
-                    </div>
-                    <p class="text-gray-500 text-sm mt-3">Pour tester votre boutique</p>
-                    <ul class="list-disc list-inside text-sm text-gray-600 mt-6 space-y-2">
-                        <li>1 sous-domaine .xy-cm.com</li>
-                        <li>Jusqu'à 5 produits</li>
-                        <li>Bouton WhatsApp</li>
-                        <li>QR code de base</li>
-                        <li>Site en brouillon (pas de publication)</li>
-                    </ul>
-                    <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Commencer gratuitement</button>
-                </div>
-
-                <!-- Starter -->
-                <div class="bg-white p-6 rounded-xl border-2 border-green-600 shadow-lg relative">
-                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">POPULAIRE</div>
-                    <h3 class="text-xl font-bold text-gray-900">Starter</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Entrée</h3>
                     <div class="mt-2">
                         <span class="text-3xl font-bold text-green-600">2 000 FCFA</span>
-                        <span class="text-gray-500">/ mois</span>
+                        <span class="text-gray-400 strike-through text-xl">4 000 FCFA</span>
+                        <span class="text-green-600 text-xs font-bold mt-1">-50%</span>
+                        <span class="text-gray-500 text-sm">/ mois</span>
                     </div>
                     <p class="text-gray-500 text-sm mt-3">Pour les petits commerçants</p>
                     <ul class="list-disc list-inside text-sm text-gray-600 mt-6 space-y-2">
-                        <li>1 sous-domaine personnalisé</li>
+                        <li>1 sous-domaine .xy-cm.com</li>
                         <li>Jusqu'à 50 produits</li>
                         <li>WhatsApp + Appel + Email</li>
                         <li>QR codes PNG/SVG</li>
                         <li>Statistiques basiques</li>
                         <li>Publication après paiement</li>
                     </ul>
-                    <button class="w-full mt-6 py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition shadow-lg shadow-green-200">Choisir Starter</button>
+                    <button class="w-full mt-6 py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition shadow-lg shadow-green-200">Choisir Entrée</button>
                 </div>
 
-                <!-- Business -->
-                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Business</h3>
+                <!-- Chiffre d'affaires -->
+                <div class="bg-white p-6 rounded-xl border-2 border-green-600 shadow-lg relative">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">POPULAIRE</div>
+                    <h3 class="text-xl font-bold text-gray-900">Chiffre d'affaires</h3>
                     <div class="mt-2">
-                        <span class="text-3xl font-bold text-gray-900">5 000 FCFA</span>
-                        <span class="text-gray-500">/ mois</span>
+                        <span class="text-3xl font-bold text-green-600">3 500 FCFA</span>
+                        <span class="text-gray-400 strike-through text-xl">7 000 FCFA</span>
+                        <span class="text-green-600 text-xs font-bold mt-1">-50%</span>
+                        <span class="text-gray-500 text-sm">/ mois</span>
                     </div>
                     <p class="text-gray-500 text-sm mt-3">Pour les boutiques en croissance</p>
                     <ul class="list-disc list-inside text-sm text-gray-600 mt-6 space-y-2">
@@ -96,48 +83,75 @@
                         <li>Jusqu'à 500 produits</li>
                         <li>Lien externe personnalisé</li>
                         <li>Statistiques avancées</li>
-                        <td>Marketing inclus</td>
+                        <li>Marketing inclus</li>
                         <li>Support prioritaire</li>
                     </ul>
-                    <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Business</button>
+                    <button class="w-full mt-6 py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition shadow-lg shadow-green-200">Choisir Chiffre d'affaires</button>
                 </div>
 
-                <!-- Premium -->
+                <!-- Prime -->
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Premium</h3>
+                    <h3 class="text-xl font-bold text-gray-900">Prime</h3>
                     <div class="mt-2">
-                        <span class="text-3xl font-bold text-gray-900">10 000 FCFA</span>
-                        <span class="text-gray-500">/ mois</span>
+                        <span class="text-3xl font-bold text-green-600">5 000 FCFA</span>
+                        <span class="text-gray-400 strike-through text-xl">10 000 FCFA</span>
+                        <span class="text-green-600 text-xs font-bold mt-1">-50%</span>
+                        <span class="text-gray-500 text-sm">/ mois</span>
                     </div>
                     <p class="text-gray-500 text-sm mt-3">Pour les grandes activités</p>
                     <ul class="list-disc list-inside text-sm text-gray-600 mt-6 space-y-2">
-                        <li>10 sous-domaines</li>
-                        <li>Produits illimités</li>
-                        <li>IA intégrée</td>
+                        <li>5 sous-domaines</li>
+                        <li>Jusqu'à 1000 produits</li>
+                        <li>IA intégrée</li>
                         <li>Campagnes marketing</li>
                         <li>Domaine personnalisé</li>
-                        <li>Support 24/7</li>
+                        <li>Support prioritaire</li>
                     </ul>
-                    <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Premium</button>
+                    <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Prime</button>
+                </div>
+
+                <!-- Panneau -->
+                <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="text-xl font-bold text-gray-900">Panneau</h3>
+                    <div class="mt-2">
+                        <span class="text-3xl font-bold text-green-600">7 000 FCFA</span>
+                        <span class="text-gray-400 strike-through text-xl">14 000 FCFA</span>
+                        <span class="text-green-600 text-xs font-bold mt-1">-50%</span>
+                        <span class="text-gray-500 text-sm">/ mois</span>
+                    </div>
+                    <p class="text-gray-500 text-sm mt-3">Pour les réseaux et franchises</p>
+                    <ul class="list-disc list-inside text-sm text-gray-600 mt-6 space-y-2">
+                        <li>10 sous-domaines</li>
+                        <li>Produits illimités</li>
+                        <li>IA avancée</li>
+                        <li>Multi-domaines</li>
+                        <li>Support Premium</li>
+                        <li>Domaine personnalisé</li>
+                    </ul>
+                    <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Panneau</button>
                 </div>
             </div>
         </div>
 
         <!-- Annual discounts -->
         <div class="max-w-2xl mx-auto mt-16 bg-green-50 rounded-xl p-6 border border-green-100">
-            <h3 class="text-lg font-bold text-green-800 mb-4">💡 Économisez avec l'abonnement annuel</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <h3 class="text-lg font-bold text-green-800 mb-4">💡 Réduction de 50% sur l'abonnement annuel</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-sm">
                 <div class="bg-white p-3 rounded-lg">
-                    <p class="font-bold text-gray-900">Starter</p>
-                    <p class="text-green-600 text-xs">-17% (2 mois offerts)</p>
+                    <p class="font-bold text-gray-900">Entrée</p>
+                    <p class="text-green-600 text-xs">-50% sur 12 mois</p>
                 </div>
                 <div class="bg-white p-3 rounded-lg">
-                    <p class="font-bold text-gray-900">Business</p>
-                    <p class="text-green-600 text-xs">-20% (2 mois offerts)</p>
+                    <p class="font-bold text-gray-900">Chiffre d'affaires</p>
+                    <p class="text-green-600 text-xs">-50% sur 12 mois</p>
                 </div>
                 <div class="bg-white p-3 rounded-lg">
-                    <p class="font-bold text-gray-900">Premium</p>
-                    <p class="text-green-600 text-xs">-25% (3 mois offerts)</p>
+                    <p class="font-bold text-gray-900">Prime</p>
+                    <p class="text-green-600 text-xs">-50% sur 12 mois</p>
+                </div>
+                <div class="bg-white p-3 rounded-lg">
+                    <p class="font-bold text-gray-900">Panneau</p>
+                    <p class="text-green-600 text-xs">-50% sur 12 mois</p>
                 </div>
             </div>
         </div>

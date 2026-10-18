@@ -16,58 +16,44 @@ class SubscriptionController extends Controller
 {
     public function plans()
     {
-        $plans = [
-            [
-                'id' => 'free',
-                'name' => 'Découverte',
-                'price' => 0,
-                'currency' => 'XOF',
-                'period' => 'month',
-                'sites_allowed' => 1,
-                'products_limit' => 5,
-                'features' => ['sous-domaine', 'qr-code', 'whatsapp-bouton'],
-                'description' => 'Pour tester votre boutique gratuitement',
-            ],
-            [
-                'id' => 'starter',
-                'name' => 'Starter',
-                'price' => 2000,
-                'currency' => 'XOF',
-                'period' => 'month',
-                'sites_allowed' => 1,
-                'products_limit' => 50,
-                'features' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
-                'description' => 'Pour les petits commerçants',
-            ],
-            [
-                'id' => 'business',
-                'name' => 'Business',
-                'price' => 5000,
-                'currency' => 'XOF',
-                'period' => 'month',
-                'sites_allowed' => 3,
-                'products_limit' => 500,
-                'features' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'lien-externe', 'stats-avancees', 'marketing'],
-                'description' => 'Pour les boutiques en croissance',
-            ],
-            [
-                'id' => 'premium',
-                'name' => 'Premium',
-                'price' => 10000,
-                'currency' => 'XOF',
-                'period' => 'month',
-                'sites_allowed' => 10,
-                'products_limit' => null,
-                'features' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
-                'description' => 'Pour les grandes activités',
-            ],
+        // Prix actuels (déjà réduits de 50%)
+        $currentPrices = [
+            'entry' => ['price' => 2000, 'original' => 4000, 'sites_allowed' => 1, 'products_limit' => 50],
+            'business' => ['price' => 3500, 'original' => 7000, 'sites_allowed' => 3, 'products_limit' => 500],
+            'prime' => ['price' => 5000, 'original' => 10000, 'sites_allowed' => 5, 'products_limit' => 1000],
+            'prime-plus' => ['price' => 7000, 'original' => 14000, 'sites_allowed' => 10, 'products_limit' => null],
         ];
 
-        // Annual discounts: 1 month free for 12 months commitment, etc.
+        $plans = [];
+        $planNames = [
+            'entry' => 'Entrée',
+            'business' => 'Chiffre d\'affaires',
+            'prime' => 'Prime',
+            'prime-plus' => 'Panneau',
+        ];
+
+        foreach ($currentPrices as $id => $p) {
+            $plans[] = [
+                'id' => $id,
+                'name' => $planNames[$id] ?? ucfirst($id),
+                'price' => $p['price'],
+                'original_price' => $p['original'],
+                'discount_percent' => 50,
+                'currency' => 'XOF',
+                'period' => 'month',
+                'sites_allowed' => $p['sites_allowed'],
+                'products_limit' => $p['products_limit'],
+                'features' => $this->getPlanFeatures($id),
+                'description' => 'Abonnement mensuel - ' . ($planNames[$id] ?? ucfirst($id)),
+            ];
+        }
+
+        // Réduction supplémentaire de 50% sur l'engagement annuel (déjà réduit de 50%)
         $annualDiscounts = [
-            'starter' => ['months' => 12, 'discount_percent' => 17, 'label' => '2 mois offerts'],
-            'business' => ['months' => 12, 'discount_percent' => 20, 'label' => '2 mois offerts'],
-            'premium' => ['months' => 12, 'discount_percent' => 25, 'label' => '3 mois offerts'],
+            'entry' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
+            'business' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
+            'prime' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
+            'prime-plus' => ['months' => 12, 'discount_percent' => 50, 'label' => '-50% annuel'],
         ];
 
         return response()->json([
@@ -75,6 +61,17 @@ class SubscriptionController extends Controller
             'annual_discounts' => $annualDiscounts,
             'default_currency' => 'XOF',
         ]);
+    }
+
+    private function getPlanFeatures(string $id): array
+    {
+        return match ($id) {
+            'entry' => ['sous-domaine', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
+            'business' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'lien-externe', 'stats-avancees', 'marketing'],
+            'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
+            'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise'],
+            default => ['sous-domaine', 'qr-code', 'whatsapp-bouton'],
+        };
     }
 
     public function createPayment(Request $request, GeniusPayService $geniusPay)
@@ -96,27 +93,23 @@ class SubscriptionController extends Controller
             ->firstOrFail();
 
         $plans = [
-            'starter' => ['price' => 2000, 'sites_allowed' => 1, 'products_limit' => 50],
-            'business' => ['price' => 5000, 'sites_allowed' => 3, 'products_limit' => 500],
-            'premium' => ['price' => 10000, 'sites_allowed' => 10, 'products_limit' => null],
+            'entry' => ['price' => 2000, 'original' => 4000, 'sites_allowed' => 1, 'products_limit' => 50],
+            'business' => ['price' => 3500, 'original' => 7000, 'sites_allowed' => 3, 'products_limit' => 500],
+            'prime' => ['price' => 5000, 'original' => 10000, 'sites_allowed' => 5, 'products_limit' => 1000],
+            'prime-plus' => ['price' => 7000, 'original' => 14000, 'sites_allowed' => 10, 'products_limit' => null],
         ];
 
-        $planConfig = $plans[$request->plan] ?? $plans['starter'];
+        $planConfig = $plans[$request->plan] ?? $plans['entry'];
         $period = $request->period ?? 'month';
         $currency = $request->currency ?? 'XOF';
         $price = $planConfig['price'];
 
-        // Annual discount calculation
+        // Annual discount calculation (50% sur l'engagement annuel, déjà réduit de 50%)
         $months = 1;
         $discountPercent = 0;
         if ($period === 'year') {
             $months = 12;
-            $discounts = [
-                'starter' => 17,
-                'business' => 20,
-                'premium' => 25,
-            ];
-            $discountPercent = $discounts[$request->plan] ?? 0;
+            $discountPercent = 50;
             $price = (int) round($price * 12 * (1 - $discountPercent / 100));
         }
 
@@ -165,9 +158,10 @@ class SubscriptionController extends Controller
                     'auto_renew' => true,
                     'expires_at' => $period === 'year' ? now()->addYear() : now()->addMonth(),
                     'features' => match ($request->plan) {
-                        'starter' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
+                        'entry' => ['sous-domaine', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'stats-basiques'],
                         'business' => ['sous-domaine-personnalise', 'qr-code', 'whatsapp-bouton', 'appel', 'email', 'lien-externe', 'stats-avancees', 'marketing'],
-                        'premium' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
+                        'prime' => ['tout-inclus', 'prioritaire', 'support', 'ia', 'campagnes', 'domaine-personnalise'],
+                        'prime-plus' => ['tout-inclus', 'prioritaire', 'support-premium', 'ia-avancee', 'multi-domaines', 'domaine-personnalise'],
                         default => ['sous-domaine', 'qr-code', 'whatsapp-bouton'],
                     },
                 ],
