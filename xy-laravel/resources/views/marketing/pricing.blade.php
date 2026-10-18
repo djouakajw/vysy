@@ -48,7 +48,10 @@
                 
                 <!-- Entrée -->
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Entrée</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Entrée</h3>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Tous les réseaux sociaux</span>
+                    </div>
                     <div class="mt-2">
                         <span class="text-3xl font-bold text-green-600">2 000 FCFA</span>
                         <span class="text-gray-400 strike-through text-xl">4 000 FCFA</span>
@@ -63,14 +66,21 @@
                         <li>QR codes PNG/SVG</li>
                         <li>Statistiques basiques</li>
                         <li>Publication après paiement</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Tous les réseaux sociaux inclus</li>
                     </ul>
+                    <div class="mt-4 text-xs text-gray-500">
+                        <p><span class="font-bold text-gray-700">Passez à Chiffre d'affaires :</span> +3 sous-domaines, +500 produits, lien externe, statistiques avancées, marketing</p>
+                    </div>
                     <button class="w-full mt-6 py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition shadow-lg shadow-green-200">Choisir Entrée</button>
                 </div>
 
                 <!-- Chiffre d'affaires -->
                 <div class="bg-white p-6 rounded-xl border-2 border-green-600 shadow-lg relative">
                     <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase">POPULAIRE</div>
-                    <h3 class="text-xl font-bold text-gray-900">Chiffre d'affaires</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Chiffre d'affaires</h3>
+                        <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">Tous les réseaux sociaux</span>
+                    </div>
                     <div class="mt-2">
                         <span class="text-3xl font-bold text-green-600">3 500 FCFA</span>
                         <span class="text-gray-400 strike-through text-xl">7 000 FCFA</span>
@@ -85,13 +95,20 @@
                         <li>Statistiques avancées</li>
                         <li>Marketing inclus</li>
                         <li>Support prioritaire</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Tous les réseaux sociaux inclus</li>
                     </ul>
+                    <div class="mt-4 text-xs text-gray-500">
+                        <p><span class="font-bold text-gray-700">Passez à Prime :</span> +5 sous-domaines, +1000 produits, IA intégrée, campagnes marketing, domaine personnalisé, réseaux sociaux publicitaires</p>
+                    </div>
                     <button class="w-full mt-6 py-3 rounded-lg bg-green-600 text-white font-bold hover:bg-green-700 transition shadow-lg shadow-green-200">Choisir Chiffre d'affaires</button>
                 </div>
 
                 <!-- Prime -->
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Prime</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Prime</h3>
+                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Publicité + Réseaux sociaux</span>
+                    </div>
                     <div class="mt-2">
                         <span class="text-3xl font-bold text-green-600">5 000 FCFA</span>
                         <span class="text-gray-400 strike-through text-xl">10 000 FCFA</span>
@@ -106,13 +123,22 @@
                         <li>Campagnes marketing</li>
                         <li>Domaine personnalisé</li>
                         <li>Support prioritaire</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Tous les réseaux sociaux</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Meta Ads, Google Ads, TikTok Ads, Meta Pixel</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Suivi des campagnes publicitaires</li>
                     </ul>
+                    <div class="mt-4 text-xs text-gray-500">
+                        <p><span class="font-bold text-gray-700">Passez à Panneau :</span> +10 sous-domaines, produits illimités, support premium, IA avancée, multi-domaines</p>
+                    </div>
                     <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Prime</button>
                 </div>
 
                 <!-- Panneau -->
                 <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-gray-900">Panneau</h3>
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900">Panneau</h3>
+                        <span class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">Publicité + Réseaux sociaux</span>
+                    </div>
                     <div class="mt-2">
                         <span class="text-3xl font-bold text-green-600">7 000 FCFA</span>
                         <span class="text-gray-400 strike-through text-xl">14 000 FCFA</span>
@@ -127,6 +153,9 @@
                         <li>Multi-domaines</li>
                         <li>Support Premium</li>
                         <li>Domaine personnalisé</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Tous les réseaux sociaux</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Meta Ads, Google Ads, TikTok Ads, Meta Pixel</li>
+                        <li class="text-green-600 text-sm font-medium">✓ Suivi avancé des campagnes</li>
                     </ul>
                     <button class="w-full mt-6 py-3 rounded-lg border border-gray-200 bg-white text-gray-700 font-semibold hover:bg-gray-50 transition">Choisir Panneau</button>
                 </div>

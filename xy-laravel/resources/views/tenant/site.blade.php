@@ -1,4 +1,65 @@
-@extends('layouts.app', ['title' => $tenant->name])
+@extends('layouts.app', ['title' => $seoTitle ?? $tenant->name])
+
+@section('styles')
+<meta name="description" content="{{ $seoDescription }}">
+<meta name="keywords" content="{{ $seoKeywords }}">
+<link rel="canonical" href="{{ $canonicalUrl }}">
+<meta property="og:title" content="{{ $seoTitle }}">
+<meta property="og:description" content="{{ $seoDescription }}">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ $canonicalUrl }}">
+@if($ogImage)
+<meta property="og:image" content="{{ $ogImage }}">
+@endif
+<meta name="twitter:card" content="{{ $twitterCard ?? 'summary_large_image' }}">
+<meta name="twitter:title" content="{{ $seoTitle }}">
+<meta name="twitter:description" content="{{ $seoDescription }}">
+
+@foreach($advertisingAccounts as $ad)
+    @if($ad->platform === 'meta_pixel' && $ad->pixel_id)
+    <meta property="fb:pixel_id" content="{{ $ad->pixel_id }}">
+    <script>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', '{{ $ad->pixel_id }}');
+      fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id={{ $ad->pixel_id }}&ev=PageView&noscript=1"
+      /></noscript>
+    @endif
+    @if($ad->platform === 'google_ads' && $ad->conversion_id)
+    <!-- Google Ads Conversion -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ $ad->conversion_id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ $ad->conversion_id }}');
+    </script>
+    @endif
+    @if($ad->platform === 'tiktok_ads' && $ad->pixel_id)
+    <script>
+      !function (w, d, t) {
+        w = w || t; d = d || t; var s = d.createElement(t);
+        s.src = 'https://www.tiktok.com/events.js';
+        w.ttc = w.ttc || []; w.ttc.push(s);
+        d.getElementsByTagName(t)[0].parentNode.appendChild(s);
+      }(window, document, 'script');
+      w.ttc && w.ttc.load('{{ $ad->pixel_id }}', {
+        /* other parameters */
+      });
+      w.ttc && w.ttc.page();
+    </script>
+    @endif
+@endforeach
+@endsection
 
 @section('content')
 <div class="min-h-screen bg-white text-gray-900">
@@ -7,7 +68,33 @@
             <div class="flex items-center space-x-3">
                 <span class="font-bold text-lg text-green-600">{{ $tenant->name }}</span>
             </div>
-            <div>
+            <div class="flex items-center space-x-4">
+                @foreach($socialAccounts as $social)
+                    @php
+                        $platforms = [
+                            'meta' => 'https://facebook.com/',
+                            'instagram' => 'https://instagram.com/',
+                            'tiktok' => 'https://tiktok.com/@',
+                            'whatsapp' => 'https://wa.me/',
+                            'youtube' => 'https://youtube.com/@',
+                            'google_business' => 'https://www.google.com/maps/search/?api=1&query=',
+                        ];
+                        $url = $social->access_token;
+                        $icon = match($social->platform) {
+                            'meta' => '📘',
+                            'instagram' => '📷',
+                            'tiktok' => '🎵',
+                            'whatsapp' => '💬',
+                            'youtube' => '▶️',
+                            'google_business' => '📍',
+                            default => '🔗',
+                        };
+                    @endphp
+                    <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" class="text-sm text-gray-600 hover:text-green-600 flex items-center space-x-1">
+                        <span>{{ $icon }}</span>
+                        <span>{{ $social->account_name }}</span>
+                    </a>
+                @endforeach
                 <a href="{{ $tenant->public_url }}" class="text-sm text-gray-600 hover:text-gray-900">{{ $tenant->public_url }}</a>
             </div>
         </div>

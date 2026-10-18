@@ -62,3 +62,18 @@ Route::middleware(['auth', 'tenant.owner'])->prefix('tenant')->name('tenant.')->
         Route::post('/renew', \App\Http\Controllers\Tenant\SubscriptionController::class . '@renew')->name('renew');
     });
 });
+
+// ============================================================
+// ADMIN ROUTES (protected)
+// ============================================================
+
+Route::middleware(['auth', 'admin.access'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/pricing', \App\Http\Controllers\Admin\PricingController::class . '@index')->name('pricing.index');
+    Route::post('/pricing/{planId}/{regionCode}', \App\Http\Controllers\Admin\PricingController::class . '@update')->name('pricing.update');
+    Route::get('/pricing/stats', \App\Http\Controllers\Admin\PricingController::class . '@stats')->name('pricing.stats');
+
+    Route::get('/social', \App\Http\Controllers\Admin\SocialController::class . '@index')->name('social.index');
+    Route::post('/social', \App\Http\Controllers\Admin\SocialController::class . '@store')->name('social.store');
+    Route::delete('/social/{socialAccount}', \App\Http\Controllers\Admin\SocialController::class . '@destroy')->name('social.destroy');
+    Route::post('/social/{socialAccount}/toggle', \App\Http\Controllers\Admin\SocialController::class . '@toggle')->name('social.toggle');
+});

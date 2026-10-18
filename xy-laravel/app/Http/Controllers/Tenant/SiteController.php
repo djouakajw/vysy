@@ -7,6 +7,8 @@ use App\Models\Tenant;
 use App\Models\Product;
 use App\Models\Page;
 use App\Models\QrCode;
+use App\Models\SocialAccount;
+use App\Models\AdvertisingAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -37,6 +39,18 @@ class SiteController extends Controller
         $actionValue = $tenant->settings['action_value'] ?? '';
         $deliveryModes = $tenant->settings['delivery_modes'] ?? [];
 
+        // Social networks (accessible to all plans)
+        $socialAccounts = SocialAccount::where('tenant_id', $tenant->id)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        // Advertising accounts (premium plans only)
+        $advertisingAccounts = AdvertisingAccount::where('tenant_id', $tenant->id)
+            ->where('is_active', true)
+            ->orderBy('created_at', 'asc')
+            ->get();
+
         // SEO data
         $seoTitle = $tenant->siteName ?? $tenant->name;
         $seoDescription = $tenant->settings['seo_description'] ?? $tenant->description ?? 'Découvrez ' . $tenant->name . ' sur ' . $tenant->public_url;
@@ -52,6 +66,8 @@ class SiteController extends Controller
             'primaryAction',
             'actionValue',
             'deliveryModes',
+            'socialAccounts',
+            'advertisingAccounts',
             'seoTitle',
             'seoDescription',
             'seoKeywords',
