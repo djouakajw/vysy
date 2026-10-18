@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\AdvertisingAccount;
 use App\Models\SocialAccount;
 use App\Models\Tenant;
 use Illuminate\Http\Request;
@@ -85,5 +86,43 @@ class SocialController extends Controller
             'success' => true,
             'is_active' => $socialAccount->is_active,
         ]);
+    }
+
+    // ============================================================
+    // GESTION DES COMPTES PUBLICITAIRES (Admin)
+    // ============================================================
+
+    public function advertisingIndex(Request $request)
+    {
+        $this->authorize('admin.access');
+
+        $advertisingAccounts = AdvertisingAccount::with('tenant')
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        $platforms = AdvertisingAccount::PLATFORMS;
+
+        return view('admin.advertising.index', compact('advertisingAccounts', 'platforms'));
+    }
+
+    public function advertisingToggle(AdvertisingAccount $advertisingAccount)
+    {
+        $this->authorize('admin.access');
+
+        $advertisingAccount->update(['is_active' => !$advertisingAccount->is_active]);
+
+        return response()->json([
+            'success' => true,
+            'is_active' => $advertisingAccount->is_active,
+        ]);
+    }
+
+    public function advertisingDestroy(AdvertisingAccount $advertisingAccount)
+    {
+        $this->authorize('admin.access');
+
+        $advertisingAccount->delete();
+
+        return response()->json(['success' => true]);
     }
 }

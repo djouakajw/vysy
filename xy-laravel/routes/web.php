@@ -76,4 +76,9 @@ Route::middleware(['auth', 'admin.access'])->prefix('admin')->name('admin.')->gr
     Route::post('/social', \App\Http\Controllers\Admin\SocialController::class . '@store')->name('social.store');
     Route::delete('/social/{socialAccount}', \App\Http\Controllers\Admin\SocialController::class . '@destroy')->name('social.destroy');
     Route::post('/social/{socialAccount}/toggle', \App\Http\Controllers\Admin\SocialController::class . '@toggle')->name('social.toggle');
+
+    // Gestion des comptes publicitaires des vendeurs (Admin)
+    Route::get('/advertising', \App\Http\Controllers\Admin\SocialController::class . '@advertisingIndex')->name('advertising.index');
+    Route::post('/advertising/{advertisingAccount}/toggle', \App\Http\Controllers\Admin\SocialController::class . '@advertisingToggle')->name('advertising.toggle');
+    Route::delete('/advertising/{advertisingAccount}', \App\Http\Controllers\Admin\SocialController::class . '@advertisingDestroy')->name('advertising.destroy');
 });
